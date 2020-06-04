@@ -16,7 +16,8 @@ public class ServerClientHandler implements Runnable
     private BufferedReader input;
     private PrintWriter output;
     private ArrayList<ServerClientHandler> allOnlineClients;
-    private String user;
+    //Used to chech if username exits
+    public String user;
     private LocalTime IMAV = LocalTime.now();
     private Logger logger = SharedLog.getInstance();
 
