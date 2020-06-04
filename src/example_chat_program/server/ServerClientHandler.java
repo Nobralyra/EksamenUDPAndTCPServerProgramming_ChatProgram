@@ -48,7 +48,7 @@ public class ServerClientHandler implements Runnable
 
         if (!allOnlineClients.isEmpty())
         {
-            String result = "LIST" + getUserList() + " " + getUser();
+            String result = "LIST" + getUserList() + " " + user;
             outToAll(result);
             output.println(result);
             logger.log(Level.INFO, this.clientSocket.getRemoteSocketAddress().toString() + " " + result);
@@ -71,7 +71,7 @@ public class ServerClientHandler implements Runnable
                 }
                 catch (Exception e)
                 {
-                    outToAll(getUser() + " has left the chat room");
+                    outToAll(user + " has left the chat room");
                     user = "";
                     outToAll("LIST" + getUserList());
                     logger.log(Level.INFO, clientSocket.getRemoteSocketAddress().toString() + " " + "client.Client disconnected");
@@ -163,7 +163,7 @@ public class ServerClientHandler implements Runnable
         String users = "";
         for (ServerClientHandler oneClient: allOnlineClients)
         {
-            users = users + " " + oneClient.getUser();
+            users = users + " " + oneClient.user;
         }
         return users;
     }
