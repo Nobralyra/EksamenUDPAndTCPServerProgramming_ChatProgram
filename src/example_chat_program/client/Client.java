@@ -29,7 +29,9 @@ public class Client
             keyboard = new BufferedReader(new InputStreamReader(System.in));
             String clientJoinMessage = keyboard.readLine();
 
+
             socket = new Socket(serverIP, Integer.parseInt(serverPort));
+            System.out.println("Clients socket address: " + socket.getLocalSocketAddress() + ", Server socket address: " + socket.getRemoteSocketAddress());
 
             output = new PrintWriter(socket.getOutputStream(), true);
             output.println(clientJoinMessage);

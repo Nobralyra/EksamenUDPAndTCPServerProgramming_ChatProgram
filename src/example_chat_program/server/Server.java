@@ -28,22 +28,22 @@ public class Server
     {
         try
         {
-            ServerSocket listeners = new ServerSocket(port);
+            ServerSocket serverSocket = new ServerSocket(port);
 
             while (true)
             {
-                logger.log(Level.INFO, "[Server] Waiting for Client to join");
-                Socket client = listeners.accept();
+                logger.log(Level.INFO, serverSocket.getLocalSocketAddress().toString() + "[Server] Waiting for Client to join");
+                Socket clientSocket = serverSocket.accept();
 
                 //Reads text from Client
-                BufferedReader input = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 String request = input.readLine();
-                logger.log(Level.INFO,client.getRemoteSocketAddress().toString() + " " + request);
+                logger.log(Level.INFO, "Server socket address: " + clientSocket.getLocalSocketAddress() + ", Clients socket address: " + clientSocket.getRemoteSocketAddress().toString() + " " + request);
 
-                if (canClientJoin(client, request))
+                if (canClientJoin(clientSocket, request))
                 {
-                    clientIsJoiningChat(client);
+                    clientIsJoiningChat(clientSocket);
                 }
             }
         }
@@ -104,7 +104,7 @@ public class Server
         for (ServerClientHandler oneClient: allClients)
         {
             //user comes from ServerClientHandler
-            String current = oneClient.user;
+            String current = oneClient.getUser();
             if(nextUserName.equals(current))
             {
                 existUserName = true;

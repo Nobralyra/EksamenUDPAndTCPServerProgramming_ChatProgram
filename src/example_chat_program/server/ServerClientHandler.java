@@ -16,13 +16,18 @@ public class ServerClientHandler implements Runnable
     private BufferedReader input;
     private PrintWriter output;
     private ArrayList<ServerClientHandler> allOnlineClients;
-    //Used to chech if username exits
-    public String user;
+
+    private String user;
     private LocalTime IMAV = LocalTime.now();
     private Logger logger = SharedLog.getInstance();
 
     public ServerClientHandler()
     {
+    }
+
+    public String getUser()
+    {
+        return user;
     }
 
     public ServerClientHandler(Socket clientSocket, ArrayList<ServerClientHandler> allOnlineClients, String user)
@@ -43,7 +48,7 @@ public class ServerClientHandler implements Runnable
 
         if (!allOnlineClients.isEmpty())
         {
-            String result = "LIST" + getUserList() + " " + user;
+            String result = "LIST" + getUserList() + " " + getUser();
             outToAll(result);
             output.println(result);
             logger.log(Level.INFO, this.clientSocket.getRemoteSocketAddress().toString() + " " + result);
@@ -66,7 +71,7 @@ public class ServerClientHandler implements Runnable
                 }
                 catch (Exception e)
                 {
-                    outToAll(user + " has left the chat room");
+                    outToAll(getUser() + " has left the chat room");
                     user = "";
                     outToAll("LIST" + getUserList());
                     logger.log(Level.INFO, clientSocket.getRemoteSocketAddress().toString() + " " + "client.Client disconnected");
@@ -158,7 +163,7 @@ public class ServerClientHandler implements Runnable
         String users = "";
         for (ServerClientHandler oneClient: allOnlineClients)
         {
-            users = users + " " + oneClient.user;
+            users = users + " " + oneClient.getUser();
         }
         return users;
     }
