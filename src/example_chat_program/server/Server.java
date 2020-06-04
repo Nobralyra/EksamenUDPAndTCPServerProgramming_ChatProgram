@@ -70,10 +70,56 @@ public class Server
         }
 
         nextUserName = request.split(" ") [1];
+
+        if(!isNextUserNameValid(nextUserName))
+        {
+            String response = "J_ER 1: Username is max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed";
+            output.println(response);
+            logger.log(Level.INFO,client.getRemoteSocketAddress().toString() + " " +  response);
+            client.close();
+            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+            return false;
+        }
+
+        if (doUserNameExists())
+        {
+            String response = "J_ER 2: Duplicate Username";
+            output.println(response);
+            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
+
+            client.close();
+            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+            return false;
+        }
+
         String response = "J_OK";
         output.println(response);
         logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
         return true;
+    }
+
+    public boolean doUserNameExists()
+    {
+        boolean existUserName = false;
+        for (ServerClientHandler oneClient: allClients)
+        {
+            //user comes from ServerClientHandler
+            String current = oneClient.user;
+            if(nextUserName.equals(current))
+            {
+                existUserName = true;
+            }
+        }
+        return existUserName;
+    }
+
+    public boolean isNextUserNameValid(String nextUserName)
+    {
+        if (nextUserName.length() <= 12 && nextUserName.matches("[a-zA-Z0-9_\\-]+"))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void clientIsJoiningChat(Socket client)
