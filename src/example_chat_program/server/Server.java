@@ -73,7 +73,7 @@ public class Server
 
         if(!isNextUserNameValid(nextUserName))
         {
-            String response = "J_ER 1: Username is max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed";
+            String response = "J_ER 2: Username is max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed";
             output.println(response);
             logger.log(Level.INFO,client.getRemoteSocketAddress().toString() + " " +  response);
             client.close();
@@ -83,7 +83,7 @@ public class Server
 
         if (doUserNameExists())
         {
-            String response = "J_ER 2: Duplicate Username";
+            String response = "J_ER 3: Duplicate Username";
             output.println(response);
             logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
 

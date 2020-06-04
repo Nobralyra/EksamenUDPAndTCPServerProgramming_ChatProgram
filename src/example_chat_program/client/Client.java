@@ -92,7 +92,7 @@ public class Client
                     output.println(command);
                     break;
                 default:
-                    System.err.println("J_ER 4: Unknown Command - No such command exists!");
+                    System.err.println("CLIENT_ER 1: Unknown Command - No such command exists!");
                     break;
             }
         }

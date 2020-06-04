@@ -82,7 +82,7 @@ public class ServerClientHandler implements Runnable
                     case "DATA":
                         if (!isDataValid(request))
                         {
-                            String response = "J_ER 3: Bad Syntax DATA <<user_name>>: <<free text…>> Max 250 user characters";
+                            String response = "SERVER_ER 1: Bad Syntax DATA <<user_name>>: <<free text…>> Max 250 user characters";
                             output.println(response);
                             logger.log(Level.INFO, clientSocket.getRemoteSocketAddress().toString() + " " + response);
                             continue;
@@ -119,7 +119,7 @@ public class ServerClientHandler implements Runnable
                         break;
 
                     default:
-                        response = "J_ER 4: Unknown Command - No such command exists!";
+                        response = "SERVER_ER 2: Unknown Command - No such command exists!";
                         output.println(response);
                         logger.log(Level.INFO, clientSocket.getRemoteSocketAddress().toString() + " " + response);
                         break;
