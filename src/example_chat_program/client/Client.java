@@ -25,10 +25,11 @@ public class Client
         try
         {
             System.out.println("Please join the server with: JOIN <<user_name>>");
-            socket = new Socket(serverIP, Integer.parseInt(serverPort));
 
             keyboard = new BufferedReader(new InputStreamReader(System.in));
             String clientJoinMessage = keyboard.readLine();
+
+            socket = new Socket(serverIP, Integer.parseInt(serverPort));
 
             output = new PrintWriter(socket.getOutputStream(), true);
             output.println(clientJoinMessage);
