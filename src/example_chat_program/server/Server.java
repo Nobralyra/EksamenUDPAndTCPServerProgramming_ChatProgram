@@ -61,40 +61,53 @@ public class Server
         if (!request.startsWith("JOIN"))
         {
             String response = "J_ER 1: Request did not start with JOIN";
-            output.println(response);
-            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
-
-            client.close();
-            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+            errorToClient(client, output, response);
             return false;
         }
 
-        nextUserName = request.split(" ") [1];
+        if (!clientGaveNoUserName(request))
+        {
+            String response = "J_ER 4: No username was given";
+            errorToClient(client, output, response);
+            return false;
+        }
 
         if(!isNextUserNameValid(nextUserName))
         {
             String response = "J_ER 2: Username is max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed";
-            output.println(response);
-            logger.log(Level.INFO,client.getRemoteSocketAddress().toString() + " " +  response);
-            client.close();
-            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+            errorToClient(client, output, response);
             return false;
         }
 
         if (doUserNameExists())
         {
             String response = "J_ER 3: Duplicate Username";
-            output.println(response);
-            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
-
-            client.close();
-            logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+            errorToClient(client, output, response);
             return false;
         }
 
         String response = "J_OK";
         output.println(response);
         logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
+        return true;
+    }
+
+    public void errorToClient(Socket client, PrintWriter output, String response) throws IOException
+    {
+        output.println(response);
+        logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " " + response);
+        client.close();
+        logger.log(Level.INFO, client.getRemoteSocketAddress().toString() + " was closed");
+    }
+
+    public boolean clientGaveNoUserName(String request)
+    {
+        String[] requestSplit = request.split(" ");
+        if (requestSplit.length < 2)
+        {
+            return false;
+        }
+        nextUserName = request.split(" ") [1];
         return true;
     }
 
