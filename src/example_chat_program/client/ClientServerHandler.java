@@ -41,6 +41,7 @@ public class ClientServerHandler implements Runnable
 
                 if (serverResponse == null || serverResponse.startsWith("J_ER"))
                 {
+                    System.err.println(serverResponse);
                     System.err.println("Closing the client");
                     break;
                 }
