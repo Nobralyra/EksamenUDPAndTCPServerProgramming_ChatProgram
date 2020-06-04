@@ -39,7 +39,7 @@ public class ClientServerHandler implements Runnable
             {
                 String serverResponse = input.readLine();
 
-                if (serverResponse == null || serverResponse.startsWith("J_ER 1"))
+                if (serverResponse == null || serverResponse.startsWith("J_ER"))
                 {
                     System.err.println("Closing the client");
                     break;
